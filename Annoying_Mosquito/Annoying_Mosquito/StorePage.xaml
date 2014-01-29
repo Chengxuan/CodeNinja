@@ -1,0 +1,45 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="Annoying_Mosquito.StorePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="Store" FontSize="45" Height="64" Margin="-5,0,5,0"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10,0,14,0">
+            <ListBox HorizontalAlignment="Left" Height="649" VerticalAlignment="Top" Width="456">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Width="456" Margin="0,5,0,5">
+                            <Image Width="56" Height="56" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="{Binding Path=ItemImage}" Tag="{Binding Path=LargeUrl}"/>
+                            <TextBlock Width="350" Height="56" Text="{Binding Path=Price}" Style="{StaticResource PhoneTextNormalStyle}" Foreground="{StaticResource PhoneAccentBrush}" TextWrapping="Wrap"></TextBlock>
+                            <Button Width="50" Height="25" IsEnabled="{Binding Path=Owned}" Content="Buy"></Button>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+                <TextBlock Foreground="PowderBlue" FontSize="30" Text="Coming Soon ..." TextWrapping="Wrap" TextAlignment="Center" Margin="10,246,10,312"/>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
