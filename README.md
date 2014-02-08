@@ -27,7 +27,7 @@ Use Visual Studio 2012, run it on windows phone 7&8
 
 Any other details about the project you think we should know
 
-This project is still been building and the 3d ARPannel is being improve. More features will be added in the future.
+This project is still been building and the 3d ARPannel is being improve. More features will be added in the future.It based on open source SharpGIS.
 Really hope you will like it.
 
 
