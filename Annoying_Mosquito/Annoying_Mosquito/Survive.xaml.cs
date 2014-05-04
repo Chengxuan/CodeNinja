@@ -16,6 +16,7 @@ using SharpGIS.AR.Controls;
 using System.Threading;
 using Microsoft.Xna.Framework.Audio;
 using System.Windows.Threading;
+using System.IO.IsolatedStorage;
 
 
 namespace Annoying_Mosquito
@@ -23,18 +24,19 @@ namespace Annoying_Mosquito
     public partial class Survive : PhoneApplicationPage
     {
         //set a photocamera
-        public Microsoft.Devices.PhotoCamera m_camera;
-        public SoundEffectInstance[] sounds = new SoundEffectInstance[100];
-        public ImageBrush[] background = new ImageBrush[2];
-        public DispatcherTimer lifeTimer = new DispatcherTimer();
+        private Microsoft.Devices.PhotoCamera m_camera;
+       // public SoundEffectInstance[] sounds = new SoundEffectInstance[100];
+        private ImageBrush[] background = new ImageBrush[2];
+        private DispatcherTimer lifeTimer;
+        private GamePannelControl gpc;
         public Survive()
         {
             InitializeComponent();
             recLife.Height = 300;
-            SimpleMosquito simpleMosquito00 = new SimpleMosquito();
-            simpleMosquito00.setCount();
-            simpleMosquito00.setlife();
-            simpleMosquito00.setTotal();
+            //SimpleMosquito simpleMosquito00 = new SimpleMosquito();
+           // simpleMosquito00.setCount();
+            //simpleMosquito00.setlife();
+           // simpleMosquito00.setTotal();
             //initial camera
             m_camera = new Microsoft.Devices.PhotoCamera();
             viewfinderBrush.SetSource(m_camera); // this function should using Microsoft.Devices
@@ -91,31 +93,55 @@ namespace Annoying_Mosquito
 
         public void startGame()
         {
-                SimpleMosquito simpleMosquito = new SimpleMosquito();
-                simpleMosquito.start(arPanel, btnMute, sounds, txtTotal, recLife, txtOver);
-           
+             gpc = new GamePannelControl(arPanel, txtTotal);
+            lifeTimer = new DispatcherTimer();
             lifeTimer.Tick += delegate(object s, EventArgs args)
             {
-                    SimpleMosquito simpleMosquito1 = new SimpleMosquito();
-                    simpleMosquito1.start(arPanel, btnMute, sounds, txtTotal, recLife, txtOver);
+                gpc.putSimpleMosquitos();
+                if (gpc.getBloodAmount()<100)
+                {
+                    VibrateController testVibrateController = VibrateController.Default;
+                    testVibrateController.Start(TimeSpan.FromMilliseconds(5));
+                    recLife.Height = 300 - (gpc.getBloodAmount() < 300 ? gpc.getBloodAmount() * 3 : 300);
+                }
+                else
+                {
+                    IsolatedStorageSettings appset = IsolatedStorageSettings.ApplicationSettings;
+                    if (appset.Contains("best"))
+                    {
+                        if (Convert.ToInt16(appset["best"].ToString()) < SimpleMosquito.getTotal())
+                        {
+                            appset["best"] = SimpleMosquito.getTotal().ToString();
+                        }
+                    }
+                    else
+                    {
+                        appset.Add("best", SimpleMosquito.getTotal().ToString());
+                    }
+                    SimpleMosquito.resetTotal();
+                    recLife.Height = 0;
+                    gpc.killAll();
+                    arPanel.Children.Clear();
+                    lifeTimer.Stop();
+                    txtOver.Visibility = Visibility.Visible;
+                }
             };
-            lifeTimer.Interval = new TimeSpan(0, 0, 1); // one seconds delay
+            lifeTimer.Interval = TimeSpan.FromSeconds(3); // three seconds delay
             lifeTimer.Start();
         }
+
+       
+
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             lifeTimer.Stop();
-            for (int i = 0; i < 100; i++)
-            {
-                if (sounds[i] != null)
-                {
-                    if (!sounds[i].IsDisposed)
-                    {
-                        sounds[i].Stop();
-                    }
-                }
-            }
-            this.arPanel.Children.Clear();
+            gpc.killAll();
+            arPanel.Children.Clear();
+        }
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            txtTotal.Text = SimpleMosquito.getTotal().ToString();
         }
 
         private void btnMute_Click(object sender, RoutedEventArgs e)
@@ -127,10 +153,14 @@ namespace Annoying_Mosquito
                 case "On":
                     btnMute.Tag = "Off";
                     btnMute.Background = background[0];
+                    //Mute the mosquitos
+                    gpc.shutUp();
                     break;
                 case "Off":
                     btnMute.Tag = "On";
                     btnMute.Background = background[1];
+                    //Let the mosquitos singing
+                    gpc.startSing();
                     break;
                 default:
                     break;

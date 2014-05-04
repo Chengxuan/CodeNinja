@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Annoying_Mosquito
 {
-    class Tool
+    public class Store
     {
-
+       // private GamePannelControl gpc;
+        //private List<Tool> toolList;
+        //private List<Buff> buffList;
     }
-    class Buff
-    {
-
-    }
+   
+   
 }

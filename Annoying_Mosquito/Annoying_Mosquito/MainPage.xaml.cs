@@ -8,6 +8,11 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.IO.IsolatedStorage;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Annoying_Mosquito
 {
@@ -20,7 +25,7 @@ namespace Annoying_Mosquito
         public MainPage()
         {
             InitializeComponent();
-            SimpleMosquito simpleMosquito00 = new SimpleMosquito();
+          //  SimpleMosquito simpleMosquito00 = new SimpleMosquito();
             //Loaded += AppBar_Loaded;
             //if (!settings.Contains("Score"))
             //{
@@ -68,7 +73,15 @@ namespace Annoying_Mosquito
       
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
+            IsolatedStorageSettings appset = IsolatedStorageSettings.ApplicationSettings;
+            if (appset.Contains("best"))
+            {
+                txtBest.Text = appset["best"].ToString();
+            }
             
+            ImageBrush background = new ImageBrush();
+            background.ImageSource = new System.Windows.Media.Imaging.BitmapImage(new Uri(@"/Image/red_dot.png", UriKind.Relative));
+            btnSurvive.Background = background;
             // var data = this.NavigationContext.QueryString;
             //if (data.ContainsKey("b") )
             //{
@@ -85,13 +98,19 @@ namespace Annoying_Mosquito
             //}
         }
 
-        private void btnTrain_Click(object sender, RoutedEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/Train.xaml?b=MainPage.xaml", UriKind.Relative));
-        }
+       
 
         private void btnSurvive_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = sender as Button;
+            ImageBrush background = new ImageBrush();
+            background.ImageSource = new System.Windows.Media.Imaging.BitmapImage(new Uri(@"/Image/red_splash.png", UriKind.Relative));
+            btn.Background = background;
+            Stream streamS = TitleContainer.OpenStream("Sounds/squash.wav");
+            SoundEffect squash = SoundEffect.FromStream(streamS);
+
+            SoundEffectInstance voiS = squash.CreateInstance();
+            voiS.Play();
             NavigationService.Navigate(new Uri("/Survive.xaml?b=MainPage.xaml", UriKind.Relative));
         }
 

@@ -17,16 +17,21 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
         <Grid.Background>
-            <ImageBrush Stretch="Fill" ImageSource="/Image/mosquitobackground.png"/>
+            <ImageBrush Stretch="Fill" ImageSource="/SplashScreenImage.jpg"/>
         </Grid.Background>
-        <Button Name="btnTrain" Content="Training Mode" Width="260" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,450,0,0" Click="btnTrain_Click"/>
-        <Button Name="btnSurvive" Content="Survive Mode" Width="260" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,560,0,0" Click="btnSurvive_Click"/>
+        <Button Name="btnSurvive" Content="Play" Width="140" Height="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="161,550,179,0" Click="btnSurvive_Click" BorderThickness="0">
+            <Button.Background>
+                <ImageBrush Stretch="UniformToFill" ImageSource="/Image/red_dot.png"/>
+            </Button.Background>
+        </Button>
+        <TextBlock HorizontalAlignment="Left" Margin="208,32,0,0" TextWrapping="Wrap" Text="Best:" Foreground="Black" VerticalAlignment="Top"/>
+        <TextBlock Name="txtBest" Foreground="Black" HorizontalAlignment="Left" Margin="255,32,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top"/>
 
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar x:Name="appbar1">
-            <shell:ApplicationBarIconButton x:Name="TakeQuizMenu" IconUri="/Image/storelogo.png" Text="Store" Click="StoreLoad"/>
+            <!--<shell:ApplicationBarIconButton x:Name="TakeQuizMenu" IconUri="/Image/storelogo.png" Text="Store" Click="StoreLoad"/>-->
             <shell:ApplicationBar.MenuItems>
                 <shell:ApplicationBarMenuItem x:Name="helpMN" Text="How to play?" Click="ShowHelp" />
             </shell:ApplicationBar.MenuItems>

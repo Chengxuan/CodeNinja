@@ -52,10 +52,6 @@
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
-    <Reference Include="SharpGIS.AR, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ReferenceFile\SharpGIS.AR.dll</HintPath>
-    </Reference>
     <Reference Include="System.Device" />
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -68,8 +64,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Class\Enemy.cs" />
+    <Compile Include="Class\Buff.cs" />
+    <Compile Include="Class\Mosquito.cs" />
+    <Compile Include="Class\GamePannelControl.cs" />
+    <Compile Include="Class\MrsSucker.cs" />
+    <Compile Include="Class\MrSucker.cs" />
+    <Compile Include="Class\SimpleMosquito.cs" />
     <Compile Include="Class\Store.cs" />
+    <Compile Include="Class\Tool.cs" />
     <Compile Include="HelpPage.xaml.cs">
       <DependentUpon>HelpPage.xaml</DependentUpon>
     </Compile>
@@ -82,9 +84,6 @@
     </Compile>
     <Compile Include="Survive.xaml.cs">
       <DependentUpon>Survive.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Train.xaml.cs">
-      <DependentUpon>Train.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -108,10 +107,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Train.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
@@ -124,19 +119,23 @@
     <Content Include="Background.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Image\mosquitobackground.png" />
-    <Content Include="Image\pause.png" />
-    <Content Include="Image\play.png" />
+    <Content Include="Image\mosquito.png" />
+    <Content Include="Image\red_dot.png" />
+    <Content Include="Image\red_paint.png" />
+    <Content Include="Image\red_splash.png" />
     <Content Include="Image\replay.png" />
     <Content Include="Image\storelogo.png" />
-    <Content Include="Image\mosquito.png" />
     <Content Include="Image\soundoff.png" />
     <Content Include="Image\soundon.png" />
     <Content Include="Sounds\mosquito.wav" />
+    <Content Include="Sounds\squash.wav" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <ProjectReference Include="..\SharpGIS.AR\SharpGIS.AR.csproj">
+      <Project>{11C1DDD1-B323-4526-8EEC-1EF8066A7E9D}</Project>
+      <Name>SharpGIS.AR</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
